@@ -98,7 +98,7 @@ const ul = <ul>{arr.map(item => <li key={item}>{item}</li>)}</ul>;
 
 ---
 
-react 事件
+## react 事件
 
 传统DOM中事件属性的JS代码在事件触发时执行，React事件的属性值需要的是一个回调函数，函数会在触发时执行
 
@@ -112,13 +112,11 @@ const clickHandler = (e)=> {
 };
 ```
 
----
+## props
 
 props中的属性是只读属性是无法修改的，起到组件传递参数的作用，标签体也可以设置为props的一个属性，叫做children，可以通过props.children来获取标签体的内容
 
----
-
-state
+## state
 
 数据发生变化时，页面也会随着数据一起变化
 
@@ -131,22 +129,61 @@ state
 
 `setCount(prevState => prevState+1);`
 
----
-
-ref
+## ref
 
 React中所有的操作默认都是在React元素上进行,虽然如此，在React中依然为我们提供了可以直接访问原生DOM对象的方式。ref就是干这个事的，能不用就不用，实在非得操作也尽量是那些不会对数据产生影响的操作，像是设置焦点、读取信息等
 
 `useRef()` 和 `ref` 两个要搭配使用，才能确定引用的DOM对象，
 
----
-
-处理表单
+## 处理表单
 
 在开发中使用双向绑定的表单项是最佳实践,React中被称为受控组件
 
----
-
-React中的css
+## React中的css
 
 内联、外联、css module
+
+## context
+
+Context类似于JS中的全局作用域，可以将一些公共数据设置到一个同一个Context中，使得所有的组件都可以访问到这些数据。
+
+## effect副作用
+
+React的严格模式，在处于开发模式下，会主动的重复调用一些函数，以使副作用显现。所以在处于开发模式且开启了React严格模式时，这些函数会被调用两次
+
+函数体中的代码会在组件渲染前执行，而 `useEffect()`中的代码是在组件渲染后才执行，这就避免了代码的执行影响到组件渲染
+
+
+## useReduce
+
+```javascript
+ const [count, countDispath] = useReducer(reducer,1);
+<button onClick={()=>countDispath({type:'sub'})}>-</button>
+//两行代码学会使用，解决state复杂更新的逻辑，简单更新不需要用。
+```
+
+## memo()
+
+React组件会在两种情况下发生重新渲染。第一种，当组件自身的state发生变化时。第二种，当组件的父组件重新渲染时；
+
+为了减少子组件的渲染成本，React为我们提供了一个方法 `React.memo()`。该方法是一个高阶函数，可以用来根据组件的props对组件进行缓存，当一个组件的父组件发生重新渲染，而子组件的props没有发生变化时，它会直接将缓存中的组件渲染结果返回而不是再次触发子组件的重新渲染，这样一来就大大的降低了子组件重新渲染的次数，memo只会根据props判断是否需要重新渲染，和state和context无关，state或context发生变化时，组件依然会正常的进行重新渲染。
+
+`export default React.memo(B);`
+
+
+## Strapi
+
+使用网页图形化界面，创建接口数据使用
+
+## fetch API
+
+React中并没有为我们提供向服务器中发送请求的方法（因为这本来就不是它所关注的事情）。所以在React中发送请求的方式和传统项目其实是一致的，无非就是使用浏览器自带的Ajax、Fetch或者是类似于Axios的第三方框架。
+
+
+## 自定义hook
+
+## redux
+
+Redux可以理解为是reducer和context的结合体，使用Redux即可管理复杂的state，又可以在不同的组件间方便的共享传递state。当然，Redux主要使用场景依然是大型应用，大型应用中状态比较复杂，如果只是使用reducer和context，开发起来并不是那么的便利，此时一个有一个功能强大的状态管理器就变得尤为的重要。它并不是只能在React使用，而是可以应用到任意的JS应用中（包括前端JS，和服务器中Node.js）
+
+Redux的核心思想中有一条叫做“单一数据源”，也就是所有的state都会存储到一课对象树中，并且这个对象树会存储到一个store中。所以到了React中，组件只需获取到store即可获取到Redux中存储的所有state。
