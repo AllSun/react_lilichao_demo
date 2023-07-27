@@ -1,29 +1,32 @@
-import {useReducer} from 'react';
+import React, { useEffect, useState ,useMemo} from 'react'
 
-const reducer = (state, action) => {
-    // eslint-disable-next-line default-case
-    switch(action.type){
-        case 'add':
-            return state + 1;
-        case 'sub':
-            return state - 1;
-    }
-};
+function Child({ data }) {
+  useEffect(() => {
+    console.log('查询条件：', data)
+  }, [data])
 
-function App() {
-
-    const [count, countDispath] = useReducer(reducer,1);
-
-    return (
-        <div className="App">
-            {count}
-
-            <div>
-                <button onClick={()=>countDispath({type:'sub'})}>-</button>
-                <button onClick={()=>countDispath({type:'add'})}>+</button>
-            </div>
-        </div>
-    );
+  return <div>子组件</div>
 }
 
-export default App;
+
+function App() {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [kw, setKw] = useState('')
+
+  const data = useMemo(() => ({
+    name,
+    phone
+  }), [name, phone])
+
+  return (
+    <div className="App">
+      <input onChange={(e) => setName(e.target.value)} type="text" placeholder='请输入姓名' />
+      <input onChange={(e) => setPhone(e.target.value)} type="text" placeholder='请输入电话' />
+      <input onChange={(e) => setKw(e.target.value)} type="text" placeholder='请输入关键词' />
+      <Child data={data} />
+    </div>
+  )
+}
+
+export default App
